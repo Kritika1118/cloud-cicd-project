@@ -1,11 +1,16 @@
-from flask import Flask
 import os
+from flask import Flask
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Hello! My CI/CD Project is Running 🚀"
+    env = os.getenv("FLASK_ENV", "development")
+    return f"Hello! Running in {env} mode 🚀"
+
+@app.route("/health")
+def health():
+    return {"status": "healthy"}, 200
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
